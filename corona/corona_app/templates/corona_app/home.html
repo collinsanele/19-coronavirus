@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <title>Corona Info</title>
+	<style>
+		.card {
+            overflow:visible;
+        }
+		
+		.card-body{
+			overflow:visible;
+		}
+		
+		.my-select{
+			width:300px;
+		}
+		
+	</style>
+  </head>
+  <body>
+	<!-- Navbar Here -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <a class="navbar-brand" href="{% url 'home' %}"><span class="font-italic text-info">Corona Update</span></a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+		  <li class="nav-item active">
+			<a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+		  </li>
+		  
+		  <li class="nav-item">
+			<a class="nav-link" href="{% url 'compare' %}">Compare two countries</a>
+		  </li>
+		  
+		  <li class="nav-item">
+			<a class="nav-link" href="https://github.com/collinsanele">My Github</a>
+		  </li>
+		  
+		</ul>
+		<form class="form-inline my-2 my-lg-0" method="POST" action="">
+		  {% csrf_token %}
+		  <select class="form-control form-control-md my-select" name="q">
+			<option value="Search By Countries (default)">Search By Countries (default)</option>
+			{% for item in data.countries_data %}
+			<option>{{ item.title }}</option>
+			{% endfor %}
+		  </select>
+		  <!--<input class="form-control mr-sm-2" type="search" placeholder="Search By Country" aria-label="Search" name="q">-->
+		  <button class="btn btn-outline-success my-2 my-sm-0 ml-2" type="submit">Search</button>
+		</form>
+	  </div>
+	</nav>
+	<!-- End of Navbar -->
+  
+	<div class="container">
+		<center><h3 class="h3 text-info mt-3">{{data.case_type}}</h3></center>
+		
+		<div class="row mt-4 mb-5">
+			<div class="col-md-4">
+				<div class="card card-body">
+					<center><h2 class="h4 font-italic">Coronavirus Cases:</h2></center>
+					<hr>
+					<center><p>
+						<span class="h2 text-info">{{data.total_str}}</span>
+					</p></center>
+				</div><!-- End of first card-->
+			</div>
+			
+			<div class="col-md-4">
+				<div class="card card-body">
+					<center><h2 class="h4 font-italic">Deaths:</h2></center>
+					<hr>
+					<center><p>
+						<span class="h2 text-danger">{{data.total_deaths_str}}</span>
+					</p></center>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<div class="card card-body">
+					<center><h2 class="h4 font-italic">Recovered:</h2></center>
+					<hr>
+					<center><p>
+						<span class="h2 text-success">{{data.total_recovered_str}}</span>
+					</p></center>
+				</div><!-- End of third card-->
+			</div>
+		</div> <!-- End of row -->
+		
+		<div class="row mb-4">
+			<div class="col-lg-6">
+				<center>
+					<div class="card card-body">
+						<h2 class="h5">{{data.case_type}}</h2>
+						<div id="myChart">
+						</div>
+					</div>
+				</center>
+			</div>
+			
+			<div class="col-lg-6">
+				<center>
+					<div class="card card-body">
+						<h2 class="h5">{{data.case_type}}</h2>
+						<div id="chartPie">
+						</div>
+					</div>
+				</center>
+			</div>
+			
+			
+		</div><!-- end of second row -->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div><!-- End of container -->
+	
+	<!-- Footer -->
+		<footer class="page-footer font-small blue mt-5 bg-dark">
+
+		  <!-- Copyright -->
+		  <div class="footer-copyright text-center py-3 text-white">© 2020 Copyright:
+			<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+		  </div>
+		  <!-- Copyright -->
+
+		</footer>
+	<!-- Footer -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+	<script>
+		
+		
+		
+		
+		
+		
+		//start of main
+		let url = "chart/";
+
+
+		fetch(url)
+		  .then((response) => {
+			return response.json();
+		  })
+		  .then((data1) => {
+						console.log(data1);
+						var chartData = {
+							plotarea: {
+							margin:'dynamic'
+							},
+							"type":"bar",	
+							"scale-x":{
+								"values":[
+										"Total Cases", "Deaths", "Recovered"]
+									
+								},
+								
+								"series":[{"values":[data1.total_cases, data1.deaths, data1.recovered]}]
+								
+								
+							 
+							}
+							
+							
+						zingchart.render({
+							id:"myChart",
+							data:chartData,
+							});  // end of implementation for bar chart 
+							
+							
+
+						pieConfig = {
+									  type: 'pie',
+									  title: {
+										text: ""
+									  },
+									  series: [
+										{ values: [data1.total_cases], text: 'Total Cases'},
+										{ values: [data1.deaths], text: 'Total Deaths'},
+										{ values: [data1.recovered], text: 'Total Recovered'},
+										
+									  ]
+									}
+																			
+										
+										
+							zingchart.render({
+							id:"chartPie",
+							data:pieConfig,
+							});  // end of implementation for pie chart 
+							
+		
+							
+				
+				
+							}); //End of .then
+	  
+
+		
+		
+		
+		
+		
+		//Implementation area
+			
+			
+		
+			
+			
+			
+			
+			
+			
+			
+			
+	</script>
+  </body>
+</html>
