@@ -1,1 +1,1 @@
-web: gunicorn corona.wsgi
+web: gunicorn wsgi.py
