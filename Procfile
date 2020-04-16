@@ -1,1 +1,1 @@
-web: gunicorn 19-coronavirus.corona.wsgi.py
+web: gunicorn corona.wsgi
