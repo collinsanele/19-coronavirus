@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<title>Compare Countries</title>
+<style>
+</style>
+</head>
+
+<body>
+
+<div class="container">
+	<center><h3 class="h3 font-italic text-info mt-3">
+		Select Two Countries To Compare
+	</h3></center>
+	
+	<div class="mt-4">
+		<div class="card card-body">
+			
+			<div class="form-group">
+				<form method="POST" action="">
+				{% csrf_token %}
+				<select class="form-control form-control-md" name="q1">
+					<option>
+						Select First Country
+					</option>
+					
+					{% for item in countries_data %}
+					<option>{{ item.title }}</option>
+					{% endfor %}
+				</select><br>
+				
+				<select class="form-control form-control-md" name="q2">
+					<option>
+						Select Second Country
+					</option>
+					
+					{% for item in countries_data %}
+					<option>{{ item.title }}</option>
+					{% endfor %}
+					
+				</select>
+				
+				
+				<center><input type="Submit" class="btn btn-info mt-3" value="Compare"></center>
+				</form>
+			</div><!-- End of form-group -->
+		</div><!-- End of card-->
+	</div>
+	
+	{% if country1 %}
+	<div class="mt-4 mb-4">
+		<center><h3 class="h4 font-italic">{{country1.case_type}} Compared To {{country2.case_type}}</h3></center>
+		<div class="card card-body mr-2">
+			<div id="compareChart" class="mr-2">
+			</div>
+		</div><!-- end of card-->
+	
+	<div class="mt-3 mr-3">
+		<table class="table table-dark table-striped table-md mr-2">
+		  <thead>
+			<tr>
+			  <th scope="col"><span style="color:orange;">Country</span></th>
+			  <th scope="col"><span class="text-info">Total Cases</span></th>
+			  <th scope="col"><span class="text-success">Recoverd</span></th>
+			  <th scope="col"><span class="text-danger">Deaths</span></th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <th scope="row">{{country1.case_type}}</th>
+			  <td>{{country1.total_cases}}</td>
+			  <td>{{country1.recovered}}</td>
+			  <td>{{country1.deaths}}</td>
+			</tr>
+			<tr>
+			  <th scope="row">{{country2.case_type}}</th>
+			  <td>{{country2.total_cases}}</td>
+			  <td>{{country2.recovered}}</td>
+			  <td>{{country2.deaths}}</td>
+			</tr>
+		  </tbody>
+		</table>
+	
+	</div><!-- End div for table-->
+	
+	</div>
+	{% endif %}
+	
+	
+	<center><a class="btn btn-info mt-4 mb-4" href="{% url 'home' %}"> Go To Home Page </a></center>
+	
+	
+	
+	
+</div><!-- End of container -->
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+<script>
+
+var chartData2 = {
+  type: "hbar",
+  "background-color":"#ccc",
+  plotarea: {
+    'adjust-layout': true
+  },
+  'scale-x': {
+    label: { /* Scale Title */
+      text: "",
+    },
+
+    labels: [ "Deaths", "Recoverd", "Total Cases",] /* Scale Labels */
+  },
+  series: [
+    { values: [{{country1.deaths}},{{country1.recovered}},{{country1.total_cases}}]},
+    { values: [{{country2.deaths}},{{country2.recovered}},{{country2.total_cases}}]}
+    ],
+	
+	plot: {
+		styles: [ "red", "green",  "blue"],
+		},
+}
+
+
+zingchart.render({
+					id:"compareChart",
+					data:chartData2,
+				}); 
+
+
+
+
+
+
+
+</script>
+</body>
