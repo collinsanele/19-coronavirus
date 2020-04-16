@@ -1,1 +1,1 @@
-web: gunicorn wsgi.py
+web: gunicorn corono.wsgi.py
